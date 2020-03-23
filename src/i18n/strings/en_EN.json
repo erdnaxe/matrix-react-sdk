@@ -2222,5 +2222,15 @@
     "Esc": "Esc",
     "Enter": "Enter",
     "Space": "Space",
-    "End": "End"
+    "End": "End",
+    "Enable KaTeX rendering by default for participants in this room": "Enable KaTeX rendering by default for participants in this room",
+    "Enable KaTeX rendering for this room (only affects you)": "Enable KaTeX rendering for this room (only affects you)",
+    "KaTeX rendering is disabled by default for participants in this room.": "KaTeX rendering is disabled by default for participants in this room.",
+    "Riot can use KaTeX to render mathematics instead of relying on image fallbacks.": "Riot can use KaTeX to render mathematics instead of relying on image fallbacks.",
+    "Enable KaTeX rendering by default": "Enable KaTeX rendering by default",
+    "You have <a>enabled</a> KaTeX rendering by default.": "You have <a>enabled</a> KaTeX rendering by default.",
+    "You have <a>disabled</a> KaTeX rendering by default.": "You have <a>disabled</a> KaTeX rendering by default.",
+    "KaTeX Rendering": "KaTeX Rendering",
+    "Math is enabled": "Math is enabled",
+    "Math is disabled": "Math is disabled"
 }

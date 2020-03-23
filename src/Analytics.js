@@ -316,6 +316,11 @@ class Analytics {
         this._setVisitVariable('Homeserver URL', whitelistRedact(whitelistedHSUrls, homeserverUrl));
     }
 
+    setMathMode(state) {
+        if (this.disabled) return;
+        this._setVisitVariable('Uses Math Mode', state ? 'on' : 'off');
+    }
+
     setBreadcrumbs(state) {
         if (this.disabled) return;
         this._setVisitVariable('Breadcrumbs', state ? 'enabled' : 'disabled');

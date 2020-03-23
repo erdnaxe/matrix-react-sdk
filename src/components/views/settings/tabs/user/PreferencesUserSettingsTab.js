@@ -41,6 +41,7 @@ export default class PreferencesUserSettingsTab extends React.Component {
         'showTypingNotifications',
         'autoplayGifsAndVideos',
         'urlPreviewsEnabled',
+        'katexRendering',
         'TextualBody.enableBigEmoji',
         'showReadReceipts',
         'showTwelveHourTimestamps',

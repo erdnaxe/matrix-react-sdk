@@ -30,6 +30,7 @@ import _linkifyString from 'linkifyjs/string';
 import classNames from 'classnames';
 import {MatrixClientPeg} from './MatrixClientPeg';
 import url from 'url';
+import katex from 'katex';
 
 import EMOJIBASE_REGEX from 'emojibase-regex';
 import {tryTransformPermalinkToLocalHref} from "./utils/permalinks/Permalinks";
@@ -227,11 +228,13 @@ const sanitizeHtmlParams = {
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol', 'sup', 'sub',
         'nl', 'li', 'b', 'i', 'u', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
         'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'span', 'img',
+        'matrix-math', 'matrix-math-display'
     ],
     allowedAttributes: {
         // custom ones first:
         font: ['color', 'data-mx-bg-color', 'data-mx-color', 'style'], // custom to matrix
-        span: ['data-mx-bg-color', 'data-mx-color', 'data-mx-spoiler', 'style'], // custom to matrix
+        span: ['data-mx-bg-color', 'data-mx-color', 'data-mx-spoiler', 'style', 'data-mx-maths'], // custom to matrix
+        div: ['data-mx-maths'],
         a: ['href', 'name', 'target', 'rel'], // remote target: custom to matrix
         img: ['src', 'width', 'height', 'alt', 'title'],
         ol: ['start'],
@@ -377,6 +380,7 @@ class TextHighlighter extends BaseHighlighter {
  * opts.returnString: return an HTML string rather than JSX elements
  * opts.forComposerQuote: optional param to lessen the url rewriting done by sanitization, for quoting into composer
  * opts.ref: React ref to attach to any React components returned (not compatible with opts.returnString)
+ * opts.renderKatex: optional argument to render mathematics using KaTeX
  */
 export function bodyToHtml(content, highlights, opts={}) {
     const isHtmlMessage = content.format === "org.matrix.custom.html" && content.formatted_body;
@@ -457,6 +461,26 @@ export function bodyToHtml(content, highlights, opts={}) {
         'mx_EventTile_bigEmoji': emojiBody,
         'markdown-body': isHtmlMessage && !emojiBody,
     });
+
+    if ( opts.renderKatex ) {
+      if ( 'undefined' != typeof safeBody ) {
+        console.log("HI THERE: " + safeBody);
+        var inlineRegex = /<span data-mx-maths="(.*?)">.*?<\/span>/g;
+        var displayRegex = /<div data-mx-maths="(.*?)">.*?<\/div>/g;
+        safeBody = safeBody.replace(inlineRegex, function(match, p1) {
+            return katex.renderToString(p1, {
+                throwOnError: false,
+                displayMode: false
+            });
+        });
+        safeBody = safeBody.replace(displayRegex, function(match, p1) {
+            return katex.renderToString(p1, {
+                throwOnError: false,
+                displayMode: true
+            });
+        });
+      }
+    }
 
     return isDisplayedWithHtml ?
         <span key="body" ref={opts.ref} className={className} dangerouslySetInnerHTML={{ __html: safeBody }} dir="auto" /> :

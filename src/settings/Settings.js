@@ -259,6 +259,10 @@ export const SETTINGS = {
         supportedLevels: LEVELS_ACCOUNT_SETTINGS,
         default: false,
     },
+    "MessageComposerInput.isMathEnabled": {
+        supportedLevels: LEVELS_ACCOUNT_SETTINGS,
+        default: false,
+    },
     "MessageComposer.showFormatting": {
         supportedLevels: LEVELS_ACCOUNT_SETTINGS,
         default: false,
@@ -524,5 +528,21 @@ export const SETTINGS = {
     "showCallButtonsInComposer": {
         supportedLevels: LEVELS_DEVICE_ONLY_SETTINGS_WITH_CONFIG,
         default: true,
+    },
+    "katexRendering" : {
+        supportedLevels: LEVELS_ROOM_SETTINGS_WITH_ROOM,
+        displayName: {
+            "default": _td("Enable KaTeX rendering by default"),
+            "room-account": _td("Enable KaTeX rendering for this room (only affects you)"),
+            "room": _td("Enable KaTeX rendering by default for participants in this room"),
+        },
+        default: false,
+    },
+    "katexRendering_e2ee": {
+        supportedLevels: ['room-device', 'room-account'],
+        displayName: {
+            "room-account": _td("Enable KaTeX rendering for this room (only affects you)"),
+        },
+        default: false,
     },
 };
